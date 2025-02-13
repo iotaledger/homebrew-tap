@@ -1,30 +1,35 @@
 class Iota < Formula
     desc "Bringing the real world to Web3 with a scalable, decentralized and programmable DLT infrastructure"
     homepage "https://www.iota.org"
-    version "0.9.2-rc"
     license "Apache-2.0"
 
-    on_macos do
-        if Hardware::CPU.arm?
-            url "https://github.com/iotaledger/iota/releases/download/v#{version}/iota-v#{version}-macos-arm64.tgz"
-            sha256 "2c67e4794d413152b81e20caf9a7a4c52efdccd88f398ca728ab8fa20d6fd9ba"
+    version "0.9.2-rc"
+    checksums = {
+        "macos-arm64" => "2c67e4794d413152b81e20caf9a7a4c52efdccd88f398ca728ab8fa20d6fd9ba",
+        "linux-x86_64" => "38569e53b2807a4ff2eaaf8a9c3c01df3a675b40d86ac3d7492c9fb051fe9b24"
+    }
+    arch = ""
 
-            def install
-                bin.install "iota"
-            end
+    on_macos do
+        on_arm do
+            arch = "macos-arm64"
         end
     end
 
     on_linux do
-        if Hardware::CPU.is_64_bit?
-            url "https://github.com/iotaledger/iota/releases/download/v#{version}/iota-v#{version}-linux-x86_64.tgz"
-            sha256 "38569e53b2807a4ff2eaaf8a9c3c01df3a675b40d86ac3d7492c9fb051fe9b24"
-
-            def install
-                bin.install "iota"
-            end
+        on_intel do
+            arch = "linux-x86_64"
         end
     end
+
+    url "https://github.com/iotaledger/iota/releases/download/v#{version}/iota-v#{version}-#{arch}.tgz"
+    sha256 checksums[arch]
+
+    def install
+        bin.install "iota"
+    end
+
+    # TODO if arch is empty, build from source
 
     test do
         assert_match version.to_s, shell_output("#{bin}/iota --version")
