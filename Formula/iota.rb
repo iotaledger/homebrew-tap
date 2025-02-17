@@ -27,6 +27,7 @@ class Iota < Formula
 
     def install
         bin.install "iota" => "iota"
+        bin.install "iota-tool" => "iota-tool"
     end
 
     # TODO if arch is empty, build from source
