@@ -1,4 +1,4 @@
-class IotaRc < Formula
+class Iota < Formula
     desc "Bringing the real world to Web3 with a scalable, decentralized and programmable DLT infrastructure"
     homepage "https://www.iota.org"
     license "Apache-2.0"
@@ -26,7 +26,7 @@ class IotaRc < Formula
     sha256 checksums[arch]
 
     def install
-        bin.install "iota" => "iota-rc"
+        bin.install "iota" => "iota"
     end
 
     # TODO if arch is empty, build from source
