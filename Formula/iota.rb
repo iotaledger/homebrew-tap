@@ -23,7 +23,7 @@ class Iota < Formula
     end
 
     # Return with error if no compatible architecture was found.
-    odie "Unsupported architecture. Please use cargo install and build from source" if arch == ""
+    odie "Unsupported architecture (#{RUBY_PLATFORM}). Please use cargo install and build from source" if arch == ""
 
     url "https://github.com/iotaledger/iota/releases/download/v#{version}/iota-v#{version}-#{arch}.tgz"
     sha256 checksums[arch]
