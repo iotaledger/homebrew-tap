@@ -22,6 +22,9 @@ class Iota < Formula
         end
     end
 
+    # Return with error if no compatible architecture was found.
+    odie "Unsupported architecture #{Hardware::CPU.arch.to_s}-#{OS.kernel_name}. Please use cargo install and build from source" if arch == ""
+
     url "https://github.com/iotaledger/iota/releases/download/v#{version}/iota-v#{version}-#{arch}.tgz"
     sha256 checksums[arch]
 
