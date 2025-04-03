@@ -3,37 +3,51 @@ class Iota < Formula
     homepage "https://www.iota.org"
     license "Apache-2.0"
 
-    version "0.9.2-rc"
+    version "0.11.4-rc"
     checksums = {
-        "macos-arm64" => "2c67e4794d413152b81e20caf9a7a4c52efdccd88f398ca728ab8fa20d6fd9ba",
-        "linux-x86_64" => "38569e53b2807a4ff2eaaf8a9c3c01df3a675b40d86ac3d7492c9fb051fe9b24"
+        "macos-arm64" => "c01697bc71996e015c333fb475d7e720674ff3253af6084a7402f8aa23de97ce",
+        "linux-x86_64" => "54ddc2fc4f95b30e85451af2f66fba804570553ef926174188b6f29e5dea805c",
+        "source" => "0070a4ad9312837ae1eb70296a378d4e0844c1dfe839bce3f6dc6a8367bea1c7",
     }
-    arch = ""
+    @@arch = "source"
 
     on_macos do
         on_arm do
-            arch = "macos-arm64"
+            @@arch = "macos-arm64"
         end
     end
 
     on_linux do
         on_intel do
-            arch = "linux-x86_64"
+            @@arch = "linux-x86_64"
         end
     end
 
-    # Return with error if no compatible architecture was found.
-    odie "Unsupported architecture #{Hardware::CPU.arch.to_s}-#{OS.kernel_name}. Please use cargo install and build from source" if arch == ""
+    sha256 checksums[@@arch]
 
-    url "https://github.com/iotaledger/iota/releases/download/v#{version}/iota-v#{version}-#{arch}.tgz"
-    sha256 checksums[arch]
-
-    def install
-        bin.install "iota" => "iota"
-        bin.install "iota-tool" => "iota-tool"
+    if @@arch == "source"
+        depends_on "cmake" => :build
+        depends_on "libpq" => :build
+        depends_on "rust" => :build
+        on_linux do
+            depends_on "llvm" => :build
+        end
+        url "https://github.com/iotaledger/iota/archive/refs/tags/v#{version}.tar.gz"
+    else
+        url "https://github.com/iotaledger/iota/releases/download/v#{version}/iota-v#{version}-#{@@arch}.tgz"
     end
-
-    # TODO if arch is empty, build from source
+    
+    def install
+        if @@arch == "source"
+            ENV["GIT_REVISION"] = ""
+            system "cargo", "build", "--release", "--bin", "iota", "--bin", "iota-tool", "-F", "indexer,gen-completions"
+            bin.install "target/release/iota" => "iota"
+            bin.install "target/release/iota-tool" => "iota-tool"
+        else
+            bin.install "iota" => "iota"
+            bin.install "iota-tool" => "iota-tool"
+        end
+    end
 
     test do
         assert_match version.to_s, shell_output("#{bin}/iota --version")
