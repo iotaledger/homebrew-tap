@@ -3,11 +3,11 @@ class Iota < Formula
     homepage "https://www.iota.org"
     license "Apache-2.0"
 
-    version "0.11.4-rc"
+    version "0.11.6-rc"
     checksums = {
-        "macos-arm64" => "c01697bc71996e015c333fb475d7e720674ff3253af6084a7402f8aa23de97ce",
-        "linux-x86_64" => "54ddc2fc4f95b30e85451af2f66fba804570553ef926174188b6f29e5dea805c",
-        "source" => "0070a4ad9312837ae1eb70296a378d4e0844c1dfe839bce3f6dc6a8367bea1c7",
+        "macos-arm64" => "afc275db42d41518e9fcb1178646f60d59170691e745e3d213f49755ab138d29",
+        "linux-x86_64" => "16773674d51079a133c3d7ae44e80a4c6482cad384a422f523022ee0581128c9",
+        "source" => "65702319d864257f882d01b9f76092ca5fa4601dd797c304d4e6e3a256370999",
     }
     @@arch = "source"
 
@@ -24,6 +24,8 @@ class Iota < Formula
     end
 
     sha256 checksums[@@arch]
+
+    depends_on "postgresql@14"
 
     if @@arch == "source"
         depends_on "cmake" => :build
