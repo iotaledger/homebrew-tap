@@ -3,11 +3,11 @@ class Iota < Formula
     homepage "https://www.iota.org"
     license "Apache-2.0"
 
-    version "1.3.1-rc"
+    version "1.4.1-rc"
     checksums = {
-        "macos-arm64" => "9673d3cdd891c35a0d41fd35cbe058784e745ddeb5cda05dab8891ea6e53a343",
-        "linux-x86_64" => "2fd8909bc21ee7193bec23f2bc13dd92ce7d32087fe98d4dded4923db1e1b28f",
-        "source" => "08c60e25a6f81c2dd600ad576764a14679aca2059f6a1c904a2ad7d679cf93be",
+        "macos-arm64" => "7f535454ee9840c9215fd5d8d2881004f2a9e895f60383db0d9551196254139a",
+        "linux-x86_64" => "6b407d4c4c58a17e473082205517b898ebe0a8ea8cfbeb53ea60abe9fe13b874",
+        "source" => "b705f2f23574074f487211cd6a492d3cc8a3c61874663b4483a1825e0138a262",
     }
     @@arch = "source"
 
