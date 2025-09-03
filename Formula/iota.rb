@@ -3,11 +3,11 @@ class Iota < Formula
     homepage "https://www.iota.org"
     license "Apache-2.0"
 
-    version "1.5.0-rc"
+    version "1.6.1-rc"
     checksums = {
-        "macos-arm64" => "e4d410348364f7b6ab76033d261cf05983e0161aec5ff9c08e2c41c5ca24d99f",
-        "linux-x86_64" => "eb48c54c7c9f5d929a3f64000aa96f05f0def54c302af98f9ffc1662c1a00e72",
-        "source" => "516f28cdcb964a52833341c958d9bfea1784a649dbd07719f24c182f340184f4",
+        "macos-arm64" => "8a401e9250c5ea912efcdda3be5c421cebf666c8423c12a6f38cb9c2e5ceb8b7",
+        "linux-x86_64" => "432954e3494f76a2b02a4014b0151ba4b43111712ae20980aacbc561e20bf511",
+        "source" => "1bcfa3dd03c5c639cc23e726a6459bd1674832bf56ebbd17bb1bf4e7a95fc4c0",
     }
     @@arch = "source"
 
@@ -42,7 +42,7 @@ class Iota < Formula
     def install
         if @@arch == "source"
             ENV["GIT_REVISION"] = ""
-            system "cargo", "build", "--release", "--bin", "iota", "--bin", "iota-tool", "-F", "indexer,gen-completions,tracing"
+            system "cargo", "build", "--release", "--bin", "iota", "--bin", "iota-tool", "-F", "indexer,iota-names,gen-completions,tracing"
             bin.install "target/release/iota" => "iota"
             bin.install "target/release/iota-tool" => "iota-tool"
         else
