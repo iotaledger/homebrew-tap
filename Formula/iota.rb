@@ -3,11 +3,11 @@ class Iota < Formula
     homepage "https://www.iota.org"
     license "Apache-2.0"
 
-    version "1.19.1"
+    version "1.20.0-rc"
     checksums = {
-        "macos-arm64" => "d1060c655eee5f8405c6b75a165e9db0b37e1051a33cc9e9b114d39edf285245",
-        "linux-x86_64" => "e05f16e801324a0e2ad6c81dc5a8da8fd47ae323c70b84e0d8aba1fec34c55d5",
-        "source" => "390ec78b334f01ebd3382106f22121c3649804db86e758ba43c3d2cf652902e3",
+        "macos-arm64" => "a3e42b10d2a6c60939031f809896aac835f9989961201ab72f5886e1a141e070",
+        "linux-x86_64" => "4bbcd872c9c1a49a19b0335d2ddebf6c7862f9f451c19210346f7d85a6e5c9c2",
+        "source" => "12947caed9449eb086dac617228e0d7cd8b155ebe7528fb4f60af143e5dccea5",
     }
     @@arch = "source"
 
@@ -25,7 +25,7 @@ class Iota < Formula
 
     sha256 checksums[@@arch]
 
-    depends_on "postgresql@14"
+    depends_on "postgresql@15"
 
     if @@arch == "source"
         depends_on "cmake" => :build
@@ -43,11 +43,13 @@ class Iota < Formula
     def install
         if @@arch == "source"
             ENV["GIT_REVISION"] = ""
-            system "cargo", "build", "--release", "--bin", "iota", "--bin", "iota-tool", "-F", "indexer,iota-names,gen-completions,tracing"
+            system "cargo", "build", "--release", "--bin", "iota", "--bin", "iota-localnet", "--bin", "iota-tool", "-F", "indexer,iota-names,gen-completions,tracing"
             bin.install "target/release/iota" => "iota"
+            bin.install "target/release/iota-localnet" => "iota-localnet"
             bin.install "target/release/iota-tool" => "iota-tool"
         else
             bin.install "iota" => "iota"
+            bin.install "iota-localnet" => "iota-localnet"
             bin.install "iota-tool" => "iota-tool"
         end
     end
